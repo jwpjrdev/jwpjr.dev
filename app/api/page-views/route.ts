@@ -3,6 +3,8 @@ import { NextRequest, NextResponse } from 'next/server'
 
 const redis = Redis.fromEnv()
 
+export const revalidate = 60
+
 export async function GET(request: NextRequest) {
     const url = request.nextUrl
     const slug = url.searchParams.get('slug')
@@ -24,6 +26,7 @@ export async function GET(request: NextRequest) {
             status: 200,
             headers: {
                 'Content-Type': 'application/json',
+                'Cache-Control': 'max-age=60, s-maxage=60, stale-while-revalidate=600',
             },
         })
     } catch (error) {

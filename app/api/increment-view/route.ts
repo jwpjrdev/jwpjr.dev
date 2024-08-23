@@ -42,7 +42,12 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
         const pageViewKey = `pageviews:projects:${slug}`
         await redis.incr(pageViewKey)
-        return new NextResponse('Request processed', { status: 202 })
+        return new NextResponse('Request processed', {
+            status: 202,
+            headers: {
+                'Cache-Control': 'no-store, max-age=0',
+            },
+        })
     } catch (error) {
         console.error('Error processing request:', error)
         return new NextResponse('Internal server error', { status: 500 })

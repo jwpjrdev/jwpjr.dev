@@ -1,5 +1,7 @@
 import { NextRequest } from 'next/server'
 
+export const revalidate = 86400
+
 export async function GET(request: NextRequest) {
     const url = request.nextUrl
     const username = url.searchParams.get('username')
@@ -14,15 +16,21 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-        const response = await fetch(`
+        const response = await fetch(
+            `
             https://github-contributions-api.jogruber.de/v4/${username}
-        `)
+        `,
+            {
+                next: { revalidate: 86400 },
+            }
+        )
         const data = await response.json()
 
         return new Response(JSON.stringify(data), {
             status: 200,
             headers: {
                 'Content-Type': 'application/json',
+                'Cache-Control': 'max-age=86400, s-maxage=86400, stale-while-revalidate=604800',
             },
         })
     } catch (error) {

@@ -5,6 +5,8 @@ type Language = {
     hours: string
 }
 
+export const revalidate = 3600
+
 export async function GET(request: NextRequest) {
     const url = request.nextUrl
     const username = url.searchParams.get('username')
@@ -19,7 +21,12 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-        const response = await fetch(`https://wakatime.com/api/v1/users/${username}/stats/all_time`)
+        const response = await fetch(
+            `https://wakatime.com/api/v1/users/${username}/stats/all_time`,
+            {
+                next: { revalidate: 3600 },
+            }
+        )
 
         if (!response.ok) {
             console.log(response.status)
@@ -36,6 +43,7 @@ export async function GET(request: NextRequest) {
             status: 200,
             headers: {
                 'Content-Type': 'application/json',
+                'Cache-Control': 'max-age=3600, s-maxage=3600, stale-while-revalidate=86400',
             },
         })
     } catch (error) {
