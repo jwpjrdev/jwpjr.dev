@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from 'recharts'
 import {
     ChartConfig,
@@ -54,36 +54,36 @@ const WakatimeGraph = ({ username, omitLanguages = [] }: Props) => {
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [error, setError] = useState<string | null>(null)
 
-    const fetchData = useCallback(async () => {
-        try {
-            const response = await fetch(`/api/wakatime-stats?username=${username}`)
-            if (!response.ok) {
-                throw new Error('Failed to fetch data')
-            }
-            const data = await response.json()
-
-            const filteredLanguages = data
-                .filter((lang) => !omitLanguages.includes(lang.name))
-                .slice(0, 7)
-                .map((lang, index) => ({
-                    name: lang.name,
-                    hours: parseFloat(lang.hours),
-                    fill: colors[index % colors.length],
-                }))
-
-            setLanguages(filteredLanguages)
-            setIsLoading(false)
-        } catch (err) {
-            setError(err instanceof Error ? err.message : 'An error occurred')
-            setIsLoading(false)
-        }
-    }, [username, omitLanguages])
-
     useEffect(() => {
-        fetchData()
-    }, [fetchData])
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`/api/wakatime-stats?username=${username}`)
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data')
+                }
+                const data = await response.json()
 
-    const CustomYAxisTick = useCallback((props) => {
+                const filteredLanguages = data
+                    .filter((lang) => !omitLanguages.includes(lang.name))
+                    .slice(0, 7)
+                    .map((lang, index) => ({
+                        name: lang.name,
+                        hours: parseFloat(lang.hours),
+                        fill: colors[index % colors.length],
+                    }))
+
+                setLanguages(filteredLanguages)
+                setIsLoading(false)
+            } catch (err) {
+                setError(err instanceof Error ? err.message : 'An error occurred')
+                setIsLoading(false)
+            }
+        }
+
+        fetchData()
+    }, [])
+
+    const CustomYAxisTick = (props) => {
         const { x, y, payload } = props
         const icon = getLanguageIcon(payload.value.toLowerCase())
         return (
@@ -111,16 +111,14 @@ const WakatimeGraph = ({ username, omitLanguages = [] }: Props) => {
                 </foreignObject>
             </g>
         )
-    }, [])
-
-    const memoizedLanguages = useMemo(() => languages, [languages])
+    }
 
     if (isLoading) return <Skeleton className="size-full rounded-3xl" />
     if (error) return <div>Error: {error}</div>
 
     return (
         <ChartContainer config={chartConfig} className="h-full w-full p-4">
-            <BarChart accessibilityLayer data={memoizedLanguages} layout="vertical">
+            <BarChart accessibilityLayer data={languages} layout="vertical">
                 <CartesianGrid horizontal={false} />
                 <YAxis
                     dataKey="name"
@@ -146,4 +144,4 @@ const WakatimeGraph = ({ username, omitLanguages = [] }: Props) => {
     )
 }
 
-export default React.memo(WakatimeGraph)
+export default WakatimeGraph
