@@ -14,7 +14,7 @@ import WakatimeGraph from './WakatimeGraph'
 
 const BentoBox = ({ posts }) => {
     const lanyard = useLanyard({
-        userId: '747519888347627550',
+        userId: '399318605713637381',
     })
 
     return (

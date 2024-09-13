@@ -9,7 +9,7 @@ const SpotifyPresence = ({ lanyard }) => {
     const setLastPlayed = useCallback(() => {
         set({
             apiKey: process.env.NEXT_PUBLIC_LANYARD_KV_KEY!,
-            userId: '747519888347627550',
+            userId: '399318605713637381',
             key: 'spotify_last_played',
             value: JSON.stringify(lanyard.data.spotify),
         }).catch((error) => console.error('Error setting KV pair:', error))

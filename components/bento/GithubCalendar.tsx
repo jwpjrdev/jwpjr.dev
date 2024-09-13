@@ -72,7 +72,7 @@ const GithubCalendar: FunctionComponent<Props> = ({ username, ...props }) => {
                 <Calendar
                     data={selectLastNDays(data.contributions, 133)}
                     theme={{
-                        dark: ['#1A1A1A', '#E9D3B6'],
+                        dark: ['#1A1A1A', '#DAB6E9'],
                     }}
                     colorScheme="dark"
                     blockSize={20}
@@ -87,7 +87,7 @@ const GithubCalendar: FunctionComponent<Props> = ({ username, ...props }) => {
                 <Calendar
                     data={selectLastNDays(data.contributions, 60)}
                     theme={{
-                        dark: ['#1A1A1A', '#E9D3B6'],
+                        dark: ['#1A1A1A', '#DAB6E9'],
                     }}
                     colorScheme="dark"
                     blockSize={20}

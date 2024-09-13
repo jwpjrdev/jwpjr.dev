@@ -13,7 +13,7 @@ export default function Footer() {
         <footer>
             <div className="mt-16 flex flex-col items-center">
                 <div className="mb-3 flex space-x-4">
-                    {siteMetadata.twitter && (
+                    {/* {siteMetadata.twitter && (
                         <a
                             href={siteMetadata.twitter}
                             className="text-muted-foreground hover:brightness-125 dark:hover:brightness-125"
@@ -22,13 +22,13 @@ export default function Footer() {
                         >
                             <Twitter size={24} />
                         </a>
-                    )}
+                    )} */}
                     {siteMetadata.email && (
                         <a
                             href={`mailto:${siteMetadata.email}`}
                             className="text-muted-foreground hover:brightness-125 dark:hover:brightness-125"
                             aria-label="Email"
-                            title="Email (jason -at- enscribe -dot- dev)"
+                            title="Email (josh -at- jwpjr -dot- dev)"
                         >
                             <Mail size={24} />
                         </a>
@@ -38,7 +38,7 @@ export default function Footer() {
                             href={siteMetadata.github}
                             className="text-muted-foreground hover:brightness-125 dark:hover:brightness-125"
                             aria-label="GitHub"
-                            title="GitHub (/jktrn)"
+                            title="GitHub (/jwpjrdev)"
                         >
                             <Github size={24} />
                         </a>
@@ -55,6 +55,15 @@ export default function Footer() {
                         </Link>
                     </div>
                 )}
+                <div className="mb-2 text-xs text-muted-foreground">
+                    Forked from {' '}
+                    <Link
+                        href="https://enscribe.dev"
+                        className="text-muted-foreground/75 underline"
+                    >
+                        enscribe.dev
+                    </Link>
+                </div>
                 <div className="mb-10 flex space-x-2 text-sm text-muted-foreground">
                     <div>{siteMetadata.author}</div>
                     <div>{` • `}</div>

@@ -94,13 +94,13 @@ const WakatimeGraph = ({ username, omitLanguages = [] }: Props) => {
                     {icon ? (
                         React.cloneElement(icon, {
                             size: 16,
-                            color: '#E9D3B6',
+                            color: '#DAB6E9',
                         })
                     ) : (
                         <text
                             x={8}
                             y={12}
-                            fill="#E9D3B6"
+                            fill="#DAB6E9"
                             fontSize="12"
                             textAnchor="middle"
                             dominantBaseline="central"
